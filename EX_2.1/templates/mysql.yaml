@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.data.appName}}
+  labels:
+    app: mysql
+    type: db
+    creationDate: {{.Values.data.creationDate}}
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      type: db
+  template:
+    metadata:
+      labels:
+       app: mysql
+       type: db
+    spec: 
+      containers: 
+        - name: mysql
+          image: mysql

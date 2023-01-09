@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+ name: {{.Release.Name}}-config-map
+ namespace: default
+data:
+{{/* |- means that it will contain more than 1 value */}}
+ sections: |-
+  {{- range .Values.sections }}
+  - {{.}}
+  {{- end }}

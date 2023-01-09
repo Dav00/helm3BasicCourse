@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-mysql
+  labels:
+    app: mysql
+    type: db
+  namespace: {{.Values.namespace}}
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      type: db
+  template:
+    metadata:
+      labels:
+       app: mysql
+       type: db
+    spec: 
+      containers: 
+        - name: mysql
+          image: mysql
+          ports: 
+            - containerPort: 3306
+              name: port-db
+          env: 
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-datos
+                key: MYSQL_ROOT_PASSWORD
+
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-datos
+                key: MYSQL_PASSWORD
+
+          - name: MYSQL_USER
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-datos
+                key: MYSQL_USER
+
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-datos
+                key: MYSQL_DATABASE

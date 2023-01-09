@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-pod
+  labels:
+    app: tomcat
+    env: {{.Values.entorno}}
+spec: 
+ containers:
+ {{- /* 
+  Depending on the environment we'll deploy a different tomcat version
+*/}}
+  - name:  tomcat
+ {{- if eq .Values.entorno "dev"}}
+    image: tomcat:10.0
+ {{else if eq .Values.entorno "acc"}}
+    image: tomcat:9.0
+ {{else if eq .Values.entorno "acc"}}
+    image: tomcat:9.0
+ {{else}}
+    image: tomcat
+ {{end}}
